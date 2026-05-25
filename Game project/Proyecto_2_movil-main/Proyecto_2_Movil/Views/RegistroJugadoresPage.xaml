@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Proyecto_2_Movil.ViewModels"
+             x:Class="Proyecto_2_Movil.Views.RegistroJugadoresPage"
+             x:DataType="vm:RegistroJugadoresViewModel"
+             Title="Registro de Jugadores">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Label Text="Registro de Jugadores"
+                   FontSize="24"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Nombre Jugador 1" />
+            <Entry Placeholder="Ingrese nombre del jugador 1"
+                   Text="{Binding NombreJugador1}" />
+
+            <Label Text="Nombre Jugador 2" />
+            <Entry Placeholder="Ingrese nombre del jugador 2"
+                   Text="{Binding NombreJugador2}" />
+
+            <!-- Mensajes de error -->
+            <Label Text="{Binding MensajeError}"
+                   TextColor="Red"
+                   IsVisible="{Binding HayError}" />
+
+            <Button Text="Continuar"
+                    Command="{Binding ContinuarCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

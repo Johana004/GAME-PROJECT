@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Proyecto_2_Movil.ViewModels"
+             xmlns:conv="clr-namespace:Proyecto_2_Movil.Converters"
+             x:Class="Proyecto_2_Movil.Views.CombatePage"
+             x:DataType="vm:CombateViewModel"
+             Title="Combate">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:RazaToImagenConverter x:Key="RazaToImagenConverter" />
+            <conv:BoolToScaleConverter x:Key="BoolScale" />
+            <conv:BoolToOpacityInverseConverter x:Key="OpacityInv" />
+            <conv:VidaToColorConverter x:Key="VidaToColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Padding="20" Spacing="16">
+
+        <!-- Texto del turno -->
+        <Label Text="{Binding TurnoTexto}"
+               FontSize="22"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <!-- BLOQUE DE JUGADORES -->
+        <Grid ColumnDefinitions="*,*" Margin="0,10">
+
+            <!-- Jugador 1 -->
+            <VerticalStackLayout Grid.Column="0"
+                                 HorizontalOptions="Center"
+                                 Spacing="5">
+
+                <Label Text="{Binding NombreJ1}" 
+                       FontSize="18" 
+                       FontAttributes="Bold" />
+
+                <!-- Imagen dinámica -->
+                <Image Source="{Binding Jugador1.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       Aspect="AspectFit"
+                       Scale="{Binding EsTurnoJ1, Converter={StaticResource BoolScale}}"
+                       Opacity="{Binding EsTurnoJ2, Converter={StaticResource OpacityInv}}" />
+
+                <!-- Barra de vida -->
+                <ProgressBar Progress="{Binding PorcentajeVidaJ1}"
+                             HeightRequest="12"
+                             ProgressColor="{Binding VidaJ1, Converter={StaticResource VidaToColor}}" />
+
+                <Label Text="{Binding VidaJ1, StringFormat='Vida: {0}'}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Jugador 2 -->
+            <VerticalStackLayout Grid.Column="1"
+                                 HorizontalOptions="Center"
+                                 Spacing="5">
+
+                <Label Text="{Binding NombreJ2}"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+
+                <Image Source="{Binding Jugador2.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       Aspect="AspectFit"
+                       Scale="{Binding EsTurnoJ2, Converter={StaticResource BoolScale}}"
+                       Opacity="{Binding EsTurnoJ1, Converter={StaticResource OpacityInv}}" />
+
+                <ProgressBar Progress="{Binding PorcentajeVidaJ2}"
+                             HeightRequest="12"
+                             ProgressColor="{Binding VidaJ2, Converter={StaticResource VidaToColor}}" />
+
+                <Label Text="{Binding VidaJ2, StringFormat='Vida: {0}'}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <!-- Distancia -->
+        <Label Text="{Binding Distancia, StringFormat='Distancia: {0}'}"
+               HorizontalOptions="Center" />
+
+        <!-- Mensaje -->
+        <Label Text="{Binding Mensaje}"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               FontSize="14" />
+
+        <!-- Botones de acciones principales -->
+        <Grid ColumnDefinitions="*,*" Margin="0,10,0,5">
+            <Button Text="Avanzar"
+                    Command="{Binding AvanzarCommand}"
+                    Grid.Column="0"
+                    HeightRequest="45"
+                    Margin="0,0,5,0" />
+            <Button Text="Retroceder"
+                    Command="{Binding RetrocederCommand}"
+                    Grid.Column="1"
+                    HeightRequest="45"
+                    Margin="5,0,0,0" />
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*" Margin="0,0,0,10">
+            <Button Text="Atacar"
+                    Command="{Binding AtacarCommand}"
+                    Grid.Column="0"
+                    HeightRequest="45"
+                    Margin="0,0,5,0" />
+            <Button Text="Sanar"
+                    Command="{Binding SanarCommand}"
+                    Grid.Column="1"
+                    HeightRequest="45"
+                    Margin="5,0,0,0" />
+        </Grid>
+
+        <!-- Botones finales (solo cuando termina el combate) -->
+        <HorizontalStackLayout Spacing="10"
+                       Margin="0,10,0,0"
+                       IsVisible="{Binding CombateTerminado}">
+
+            <!-- Botones finales centrados -->
+            <Grid IsVisible="{Binding CombateTerminado}"
+      HorizontalOptions="Center"
+      Margin="0,20,0,0"
+      ColumnDefinitions="Auto,Auto,Auto"
+      ColumnSpacing="10">
+
+                <Button Grid.Column="0"
+            Text="Estadísticas"
+            Command="{Binding VerEstadisticasCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#6A4CFF"
+            TextColor="White"
+            CornerRadius="10" />
+
+                <Button Grid.Column="1"
+            Text="Otra partida"
+            Command="{Binding OtraPartidaCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#444444"
+            TextColor="White"
+            CornerRadius="10" />
+
+                <Button Grid.Column="2"
+            Text="Salir"
+            Command="{Binding SalirCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#CC0000"
+            TextColor="White"
+            CornerRadius="10" />
+            </Grid>
+
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
